@@ -165,6 +165,8 @@ class Perfil:
         print(f'10] Indique em quais aplicações listadas abaixo você já investiu e qual afrequência nos últimos dois anos. Pode assinalar mais do que uma alternativa.\n')
         tabela = pd.DataFrame(Dez)
         pd.set_option('display.max_colwidth', 200)
+        # No momento de mostrar as tabelas, se voce estiver executando em ambientes virtual Ipython o 'display' funcionará.
+        # No entanto se o codigo for executado em IDEs como Pycharm ou VScode, e importante mundar para o 'print'.
         display(tabela)
         print(f'Obs: Efetue a somatória dos pontos referente a questão acima e escolha a alternativa equivalente:')
         print(f'a)Entre 0 e 1 ponto\nb) Entre 2 e 4 pontos\nc) Acima de 5 pontos\n')
@@ -187,6 +189,9 @@ class Perfil:
         print(f'11] Tomando por base as respostas da questão anterior, informar o volume aproximado que foi destinado a cada operação no período.')
         tabela2 = pd.DataFrame(onze)
         pd.set_option('display.max_colwidth', 200)
+        
+        # No momento de mostrar as tabelas, se voce estiver executando em ambientes virtual Ipython o 'display' funcionará. 
+        # No entanto se o codigo for executado em IDEs como Pycharm ou VScode, e importante mundar para o 'print'.
         display(tabela2)
         print(f'Obs: Efetue a somatória dos pontos referente a questão acima e escolha a alternativa equivalente:')
         print(f'a)Entre 0 e 1 ponto\nb) Entre 2 e 4 pontos\nc) Acima de 5 pontos\n')
