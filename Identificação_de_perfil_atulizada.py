@@ -10,7 +10,7 @@ Lista_principal = []
 
 # Criação dos moldes da Classe perfil e os moldes do objeto
 class Perfil:
-    def __init__(self, login, pwd, respostas):
+    def __init__(self, login, pwd):
         self.id = self.gerar_id()
         self.login = login
         self.pwd = pwd
@@ -250,7 +250,7 @@ instancia = False
 def criar_perfil():
     login = input(f"Digite seu Login: ")
     pwd = input(f"Digite seu password: ")   
-    perfil = Perfil(login, pwd, resposta)
+    perfil = Perfil(login, pwd)
     return perfil
 
 
