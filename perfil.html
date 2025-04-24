@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuario</title>
+</head>
+<body>
+    <h1>Bem vindo!</h1>
+    <form id="perfilForm">
+        <div>
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" name="username" required><br><br>
+        </div>
+        <div>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required><br><br>
+        </div>
+        <button type="button" onclick="verificarLogin()">Acessar</button>
+        <div id="mensagem"></div>
+    </form>
+
+    <p><a href="/">Voltar para a página inicial</a></p>
+</body>
+
+<script>
+    async function verificarLogin() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const mensagemDiv = document.getElementById('mensagem');
+
+        const data = { username: username, password: password };
+
+        const response = await fetch('/Login', { // Envia para a mesma rota /Login (você pode criar uma nova)
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            // Se o login for bem-sucedido, o backend deve retornar informações do perfil
+            if (result && result.id) {
+                window.location.href = `/Usuario_perfil/${result.id}`;
+            } else {
+                mensagemDiv.textContent = 'Erro ao obter informações do perfil.';
+            }
+        } else {
+            mensagemDiv.textContent = 'Falha ao fazer login: ' + result.erro;
+        }
+    }
+</script>
+</html>
