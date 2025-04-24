@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+    <form id="cadastroForm">
+        <div>
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" name="username" required><br><br>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+        </div>
+        <div>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required><br><br>
+        </div>
+        <button type="button" onclick="cadastrarUsuario()">Cadastrar</button>
+        <div id="mensagem"></div>
+    </form>
+
+    <script>
+        async function cadastrarUsuario() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const data = { username: username, email: email, password: password };
+
+            const response = await fetch('/Cadastro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            const mensagemDiv = document.getElementById('mensagem');
+
+            if (response.ok) {
+                mensagemDiv.textContent = result.mensagem + ' ID: ' + result.id;
+                // Redirecionar para a página de perfil após o cadastro
+                window.location.href = `/Usuario_perfil/${result.id}`;
+            } else {
+                mensagemDiv.textContent = 'Erro no cadastro: ' + result.erro;
+            }
+        }
+    </script>
+</body>
+</html>
