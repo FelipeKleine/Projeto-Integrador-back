@@ -40,6 +40,58 @@ with app.app_context():
 def Inicio():
     return render_template('index2.html')
 
+#Página orcamento
+@app.route ('/orcamento', methods=["GET", "POST"])
+def orcamento():
+    return render_template('orcamento.html')
+
+#Página GerencieDividas
+@app.route ('/gerenciedividas', methods=["GET", "POST"])
+def gerenciedividas():
+    return render_template('gerenciedividas.html')
+
+#Página criemetas
+@app.route ('/criemetas', methods=["GET", "POST"])
+def criemetas():
+    return render_template('criemetas.html')
+
+#Página conceitosfundamentais
+@app.route ('/conceitosfundamentais', methods=["GET", "POST"])
+def conceitosfundamentais ():
+    return render_template('conceitosfundamentais.html')
+
+#Página tiposinvestimentos
+@app.route ('/tiposinvestimentos', methods=["GET", "POST"])
+def tiposinvestimentos ():
+    return render_template('tiposinvestimentos.html')
+
+
+#Página risco
+@app.route ('/risco', methods=["GET", "POST"])
+def risco ():
+    return render_template('risco.html')
+
+
+
+#Página cursos
+@app.route ('/cursos', methods=["GET", "POST"])
+def cursos ():
+    return render_template('cursos.html')
+
+#Página leituras
+@app.route ('/leituras', methods=["GET", "POST"])
+def leituras ():
+    return render_template('leituras.html')
+
+#Páginna noticias
+@app.route ('/noticias', methods=["GET", "POST"])
+def noticias ():
+    return render_template('noticias.html')
+
+@app.route('/')
+def home():
+    return render_template('index2.html')
+
 #Função de Login
 @app.route('/Login', methods=["GET", "POST"])
 def Login():

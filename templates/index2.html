@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn Finance - Sua plataforma de educação financeira</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 
@@ -45,7 +45,7 @@
             
         </div>
         <div class="hero-image">
-            <img src="static/dinheiro-opcoes.jpg" alt="Ilustração de educação financeira">
+            <img src="static/images/invest03.png" alt="Ilustração de educação financeira">
         </div>
     </header>
 
@@ -56,33 +56,33 @@
         <div class="path-step" data-level="iniciante">
             <h3>Organize-se</h3>
             <ul>
-                <li><a href="orcamento.html" target="_blank">Orçamento Pessoal
+                <li><a href="{{ url_for('orcamento') }}" target="_blank">Orçamento Pessoal
                 </a>
-                <li><a href="gerenciedividas.html" target="_blank">Gerencie suas dívidas
+                <li><a href="{{ url_for('gerenciedividas') }}" target="_blank">Gerencie suas dívidas
                 </a>
-                <li><a href="criemetas.html" target="_blank">Crie suas metas
+                <li><a href="{{ url_for('criemetas') }}" target="_blank">Crie suas metas
                 </a>
             </ul>
         </div>
         <div class="path-step" data-level="intermediario">
             <h3>Invista</h3>
             <ul>
-        <li><a href="conceitosfundamentais.html" target="_blank">Conceitos Fundamentais
+        <li><a href="{{ url_for('conceitosfundamentais') }}" target="_blank">Conceitos Fundamentais
                 </a>
-                <li><a href="tiposinvestimentos.html" target="_blank">Tipos de investimentos
+                <li><a href="{{ url_for('tiposinvestimentos') }}" target="_blank">Tipos de investimentos
                 </a>
-                <li><a href="risco.html" target="_blank">Risco, retorno e diversificação
+                <li><a href="{{ url_for('risco') }}" target="_blank">Risco, retorno e diversificação
                 </a>
               </ul>
         </div>
         <div class="path-step" data-level="avancado">
             <h3>Aprimore-se</h3>
             <ul>
-                <li><a href="cursos.html" target="_blank">Cursos
+                <li><a href="{{ url_for('cursos') }}" target="_blank">Cursos
                 </a>
-                <li><a href="leituras.html" target="_blank">Leituras
+                <li><a href="{{ url_for('leituras') }}" target="_blank">Leituras
                 </a>
-                <li><a href="noticias.html" target="_blank">Notícias
+                <li><a href="{{ url_for('noticias') }}"  target="_blank">Notícias
                 </a>
 
             </ul>
@@ -168,6 +168,8 @@
         <!-- Conteúdo do modal de login -->
     </div>
     
+ <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 
