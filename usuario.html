@@ -3,32 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Seu Perefil</title>
 </head>
 <body>
-    <h1>Perfil do Usuário</h1>
-    {% if usuario %}
+    
+    <nav class="navbar">
+        <div class="logo">
+            <h1><i class="fas fa-chart-line"></i> Learn Finance</h1>
+        </div>
+            <form action="/" methods="POST, GET">
+                <a href="/">Voltar</a>
+            </form>
+    </nav>
+    <div class="Div-principal">
+
+        <div class="container-user">
+            
+        <h1 class="h1-user">Perfil do Usuário</h1>
+        {% if usuario %}
         <p><strong>ID:</strong> {{ usuario.id }}</p>
         <p><strong>Nome de Usuário:</strong> {{ usuario.username }}</p>
         <p><strong>Email:</strong> {{ usuario.email }}</p>
         <p><strong>Data de Cadastro:</strong> {{ usuario.data_cadastro }}</p>
-    {% else %}
+        {% else %}
         <p>Nenhum usuário encontrado.</p>
-    {% endif %}
-    <form action="/Calcular" methods="GET, POST">
-        <button id="btn-calcular" onclick="Calcular_perfil()">Calcular Perfil</button>
-    </form>
+        {% endif %}
+        <form>
+            <button id="btn-calcular" >Calcular Perfil</button>
+        </form>
+    </div>  
+</div>
 
-    <p><a href="/">Voltar para a página inicial</a></p>
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Learn Finance. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const btnCalcular = document.getElementById('calcular');
+        const btnCalcular = document.getElementById('btn-calcular');
 
         if (btnCalcular) {
             btnCalcular.addEventListener('click', function(event) {
                 event.preventDefault();
-                window.location.href = "/Caucular_perfil"; // Adapte o caminho aqui!
+                window.location.href = "/Calcular"; 
             });
         }
     });
