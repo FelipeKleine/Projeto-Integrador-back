@@ -3,24 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Perfil do Usuario</title>
 </head>
 <body>
-    <h1>Bem vindo!</h1>
+<header>
+    <nav class="navbar">
+        <div class="box1">
+            <h1 class="logo"><i></i> Learn Finance</h1>
+        </div>       
+        <div>    
+            <p class="box2"><a href="/">Voltar para a página inicial</a></p>
+        </div>
+    </nav>
+</header>
     <form id="perfilForm">
-        <div>
+        <div class="Div1">
             <label for="username">Nome de Usuário:</label>
             <input type="text" id="username" name="username" required><br><br>
         </div>
-        <div>
+        <div class="Div2">
             <label for="password">Senha:</label>
             <input type="password" id="password" name="password" required><br><br>
         </div>
         <button type="button" onclick="verificarLogin()">Acessar</button>
         <div id="mensagem"></div>
     </form>
-
-    <p><a href="/">Voltar para a página inicial</a></p>
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Learn Finance. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 </body>
 
 <script>
