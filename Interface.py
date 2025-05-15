@@ -1,52 +1,46 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 from datetime import datetime
 
-#Cria o servidor
+
+
 app = Flask(__name__)
-#Cria o BD utilizando a biblioteca flask_sqlalchemy que salva os dados em usuario.db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///usuarios.db'  # Arquivo do banco de dados SQLite
-#variavel para utilizar o BD no script
 db = SQLAlchemy(app)
 
 
-
-# Definição do modelo do usuário no banco de dados. As caracteristicas principias do usuario
+# Definição do modelo do usuário no banco de dados
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     data_cadastro = db.Column(db.DateTime, default=datetime.now)
-#Perfil do usuario que estou aprimorando, será uma nova coluna no BD 
-#    formulario = db.Column(db.Integer)
 
-#Função de segurança para omitir a senha gerando uma hash
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
-#Função para checar senha
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'<Usuario {self.username}>'
+    
+
+
 
 with app.app_context():
-    db.create_all()  # Cria as tabelas no banco de dados
+    db.create_all()  # Cria as tabelas no banco de dados, se não existirem
 
 
-#Direciona para pagina principal
+#Página inicial
 @app.route ('/', methods=["GET", "POST"])
 def Inicio():
     return render_template('index2.html')
 
-
-#Função para conferir as credenciais do usuario ao acessar seu Login
+#Função de Login
 @app.route('/Login', methods=["GET", "POST"])
 def Login():
     if request.method == "POST":
@@ -69,7 +63,7 @@ def Login():
     return render_template("perfil.html")
 
 
-#Função para criar um Login do usuario
+#Função de cadastro
 @app.route('/Cadastro', methods=["POST", "GET"])
 def Cadastro():
     if request.method == "POST":
@@ -98,17 +92,94 @@ def Cadastro():
     return render_template("cadastro.html")
 
 
-#Função que retorna as informações do perfil do usuario 
+#Função de exibição do perfil já cadastrado, definido por ID
 @app.route('/Usuario_perfil/<int:id>', methods=["GET"])
 def exibir_perfil(id):
     usuario = Usuario.query.get_or_404(id)
     return render_template("usuario.html", usuario=usuario)
 
-#Essa função está em desenvolvimento
-@app.route('/Usuario_perfil/Calcular', methods=["GET"])
-def Calcular_perfil(id):
+#Em desenvolvimento!
+RespostasFormulario = []
+@app.route('/Calcular', methods=["GET", "POST"])
+def Calcular_perfil():
+    if request.method == "POST":
+        respostas = request.get_json()
+        if 'r1' in respostas and 'r2' in respostas and 'r3' in respostas and 'r4' in respostas:
+            R1 = respostas['r1']
+            RespostasFormulario.append[R1]
+            R2 = respostas['r2']
+            RespostasFormulario.append[R2]
+            R3 = respostas['r3']
+            RespostasFormulario.append[R3]
+            R4 = respostas['r4']
+            RespostasFormulario.append[R4]
+            return jsonify({'mensagem': 'Formulario preenchido!'}), 201
+        else:
+            return jsonify({'erro': 'Falha!'})
 
-    return render_template("calculo.html", usuario=usuario)
+    return render_template("calculo.html")
+
+
+# Função de exibição do formulario de identificação do perfil
+@app.route('/Perfil_investidor', methods=["GET"])
+def exibir_resultado():
+    Respostas = RespostasFormulario
+    return render_template('perfil_inv.html', Respostas=Respostas)
+
+#Função para executar o botão de Tipos de Investimentos
+@app.route('/Tipos_investimento', methods=["POST", "GET"])
+def tipos_investimento():
+    return render_template('tipos.html')
+
+#Função de rota da calculadora
+@app.route('/Calculadora', methods=["POST", "GET"])
+def calculadora():
+    return render_template('calculadora.html')
+
+
+#Função para executar os calculos com os parametros estabelecidos
+def calcular_investimento(valor_inicial, aporte_mensal, taxa_anual, periodo, tipo_periodo, tipo_investimento, tributacao):
+    taxa_mensal = (1 + taxa_anual / 100) ** (1/12) - 1
+    if tipo_periodo == 'years':
+        num_meses = periodo * 12
+    else:
+        num_meses = periodo
+
+    montante_final = valor_inicial * (1 + taxa_mensal) ** num_meses
+    for _ in range(num_meses):
+        montante_final += aporte_mensal * (1 + taxa_mensal) ** (num_meses - _)
+
+    total_investido = valor_inicial + (aporte_mensal * num_meses)
+    juros_bruto = montante_final - total_investido
+    imposto = juros_bruto * (tributacao / 100)
+    montante_liquido = montante_final - imposto
+
+    return {
+        'total_investido': round(total_investido, 2),
+        'juros_acumulados': round(juros_bruto, 2),
+        'imposto_deduzido': round(imposto, 2),
+        'valor_liquido_final': round(montante_liquido, 2)
+    }
+
+#Função para exibir os calculos de maneira recursiva
+@app.route('/calcular_inv', methods=['POST'])
+def calcular():
+    data = request.get_json()
+    valor_inicial = float(data.get('initialAmount', 0))
+    aporte_mensal = float(data.get('monthlyAmount', 0))
+    taxa_anual = float(data.get('interestRate', 0))
+    periodo = int(data.get('timePeriod', 1))
+    tipo_periodo = data.get('timePeriodUnit', 'years')
+    tipo_investimento = data.get('investmentType', 'pre')
+    tributacao = float(data.get('taxPeriod', 0))
+
+    resultados = calcular_investimento(valor_inicial, aporte_mensal, taxa_anual, periodo, tipo_periodo, tipo_investimento, tributacao)
+    return jsonify(resultados)
+
+
+@app.route('/Riscos', methods=["GET", "POST"])
+def riscos():
+    return render_template('riscos.html')
 
 
 if __name__ == '__main__':
